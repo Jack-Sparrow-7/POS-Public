@@ -1,20 +1,40 @@
-import 'package:flutter/material.dart';
+import 'dart:ui';
 
 class AppColors {
-  AppColors._();
+  const AppColors._();
+  static const background = Color(0xFFF9FAFB);
+  static const foreground = Color(0xFF14181F);
 
-  static const primary = Color(0xFF191645);
-  static const accent = Color(0xFF43C6AC);
-  static const neutral = Color(0xFFF8FAFC);
-  static const surface = Color(0xFFFFFFFF);
-  static const transparent = Colors.transparent;
-  static const border = Color(0xFFD2D5DA);
-  static const textDark = Color(0xFF080A09);
-  static const textMedium = Color(0xFF525453);
-  static const textLight = Color(0xFF909190);
-  static const danger = Color(0xFFD32F2F);
-  static const shadowSoft = Color(0x14000000);
-  static const shadowStrong = Color(0x38000000);
-  static const cursor = Color(0xFF2196F3);
-  static const selection = Color(0xFFBBDEFB);
+  static const card = Color(0xFFFFFFFF);
+  static const cardForeground = Color(0xFF14181F);
+
+  static const popover = Color(0xFFFFFFFF);
+  static const popoverForeground = Color(0xFF14181F);
+
+  static const primary = Color(0xFF7C66F5);
+  static const primaryForeground = Color(0xFFFFFFFF);
+
+  static const secondary = Color(0xFFE9EDF2);
+  static const secondaryForeground = Color(0xFF14181F);
+
+  static const muted = Color(0xFFF1F3F5);
+  static const mutedForeground = Color(0xFF69707E);
+
+  static const accent = Color(0xFF16A282);
+  static const accentForeground = Color(0xFFFFFFFF);
+
+  static const destructive = Color(0xFFDC2828);
+  static const destructiveForeground = Color(0xFFFFFFFF);
+
+  static const border = Color(0xFFDCE1E7);
+  static const input = Color(0xFFDCE1E7);
+  static const ring = Color(0xFF7C66F5);
+
+  static const surface = Color(0xFFF5F7F9);
+  static const surfaceForeground = Color(0xFF14181F);
+
+  static const success = Color(0xFF20B26A);
+  static const warning = Color(0xFFF5A60A);
+
+  static const selection = Color(0x337C66F5);
 }

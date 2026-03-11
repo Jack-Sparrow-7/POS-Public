@@ -1,68 +1,78 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pos_public/presentation/bloc/auth/auth_bloc.dart';
-import 'package:pos_public/presentation/bloc/auth/auth_state.dart';
-import 'package:pos_public/presentation/screens/auth_loading_screen.dart';
-import 'package:pos_public/presentation/screens/forgot_password_screen.dart';
-import 'package:pos_public/presentation/screens/home_screen.dart';
-import 'package:pos_public/presentation/screens/login_screen.dart';
-import 'package:pos_public/presentation/screens/register_screen.dart';
+import 'package:pos_public/core/views/home_screen.dart';
+import 'package:pos_public/core/views/loading_screen.dart';
+import 'package:pos_public/features/auth/bloc/auth_bloc.dart';
+import 'package:pos_public/features/auth/views/forgot_password_screen.dart';
+import 'package:pos_public/features/auth/views/login_screen.dart';
+import 'package:pos_public/features/auth/views/register_screen.dart';
 
-GoRouter createAppRouter(AuthBloc authBloc) {
+GoRouter createRouter(AuthBloc authBloc) {
   return GoRouter(
     initialLocation: '/',
-    refreshListenable: AuthRefreshListenable(authBloc.stream),
-    redirect: (context, state) {
-      final authState = authBloc.state;
-      final authRoutes = ['/register', '/login', '/forgotPassword'];
-      final isAuthRoute = authRoutes.contains(state.matchedLocation);
-      final isOnLoadingRoute = state.matchedLocation == '/';
-
-      final isInitialCheck =
-          authState is AuthInitial || authState is AuthChecking;
-      final isAuthenticated = authState is AuthAuthenticated;
-
-      if (isInitialCheck) return '/';
-      if (isAuthenticated && (isAuthRoute || isOnLoadingRoute)) {
-        return '/home';
-      }
-      if (!isAuthenticated && !isAuthRoute) return '/register';
-      return null;
-    },
     routes: [
-      GoRoute(
-        path: '/',
-        builder: (context, state) => const AuthLoadingScreen(),
-      ),
-      GoRoute(
-        path: '/register',
-        builder: (context, state) => const RegisterScreen(),
-      ),
-      GoRoute(path: '/login', builder: (context, state) => const LoginScreen()),
+      GoRoute(path: '/', builder: (context, state) => LoadingScreen()),
+      GoRoute(path: '/login', builder: (context, state) => LoginScreen()),
+      GoRoute(path: '/register', builder: (context, state) => RegisterScreen()),
+      GoRoute(path: '/home', builder: (context, state) => HomeScreen()),
       GoRoute(
         path: '/forgotPassword',
-        builder: (context, state) => const ForgotPasswordScreen(),
+        builder: (context, state) => ForgotPasswordScreen(),
       ),
-      GoRoute(path: '/home', builder: (context, state) => const HomeScreen()),
     ],
+    redirect: (context, state) {
+      final authRoutes = ['/login', '/register', '/forgotPassword'];
+      final protectedRoutes = ['/home'];
+      final isOnLoadingRoute = state.matchedLocation == '/';
+      final isAuthRoute = authRoutes.contains(state.matchedLocation);
+      final isProtectedRoute = protectedRoutes.contains(state.matchedLocation);
+
+      final authState = authBloc.state;
+
+      if (authState is AuthInitial) {
+        return '/';
+      }
+
+      if (authState is Unauthenticated) {
+        if (isProtectedRoute || isOnLoadingRoute) {
+          return '/login';
+        }
+        return null;
+      }
+
+      if (authState is Authenticated) {
+        if (isAuthRoute || isOnLoadingRoute) {
+          return '/home';
+        }
+        return null;
+      }
+
+      if (isProtectedRoute) {
+        return '/login';
+      }
+
+      return null;
+    },
+    refreshListenable: GoRouterRefreshStream(authBloc.stream),
   );
 }
 
-class AuthRefreshListenable extends ChangeNotifier {
-  final Stream<dynamic> _stream;
-  StreamSubscription<dynamic>? _subscription;
+class GoRouterRefreshStream extends ChangeNotifier {
+  late final StreamSubscription _subscription;
 
-  AuthRefreshListenable(this._stream) {
-    _subscription = _stream.asBroadcastStream().listen((_) {
-      notifyListeners();
-    });
+  GoRouterRefreshStream(Stream stream) {
+    notifyListeners();
+
+    _subscription = stream.asBroadcastStream().listen(
+      (event) => notifyListeners(),
+    );
   }
 
   @override
   void dispose() {
-    _subscription?.cancel();
+    _subscription.cancel();
     super.dispose();
   }
 }
