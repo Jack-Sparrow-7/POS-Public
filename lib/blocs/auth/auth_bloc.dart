@@ -1,14 +1,21 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:pos_public/core/storage/secure_storage.dart';
-import 'package:pos_public/features/auth/models/user/user.dart';
-import 'package:pos_public/features/auth/repository/auth_repository.dart';
+import 'package:pos_public/models/user/user.dart';
+import 'package:pos_public/repositories/auth_repository.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
 
 @injectable
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
+  String _errorMessage(Object error) {
+    final message = error.toString();
+    return message.startsWith('Exception: ')
+        ? message.replaceFirst('Exception: ', '')
+        : message;
+  }
+
   final AuthRepository repository;
   final SecureStorage secureStorage;
 
@@ -48,7 +55,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
       emit(Authenticated(user: response.user));
     } catch (e) {
-      emit(AuthError(message: e.toString()));
+      emit(AuthError(message: _errorMessage(e)));
     }
   }
 
@@ -73,7 +80,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
       emit(Authenticated(user: response.user));
     } catch (e) {
-      emit(AuthError(message: e.toString()));
+      emit(AuthError(message: _errorMessage(e)));
     }
   }
 

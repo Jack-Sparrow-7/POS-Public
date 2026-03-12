@@ -2,12 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pos_public/core/views/home_screen.dart';
-import 'package:pos_public/core/views/loading_screen.dart';
-import 'package:pos_public/features/auth/bloc/auth_bloc.dart';
-import 'package:pos_public/features/auth/views/forgot_password_screen.dart';
-import 'package:pos_public/features/auth/views/login_screen.dart';
-import 'package:pos_public/features/auth/views/register_screen.dart';
+import 'package:pos_public/views/screens/home_screen.dart';
+import 'package:pos_public/views/screens/loading_screen.dart';
+import 'package:pos_public/blocs/auth/auth_bloc.dart';
+import 'package:pos_public/views/screens/forgot_password_screen.dart';
+import 'package:pos_public/views/screens/login_screen.dart';
+import 'package:pos_public/views/screens/register_screen.dart';
 
 GoRouter createRouter(AuthBloc authBloc) {
   return GoRouter(

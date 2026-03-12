@@ -1,4 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:dio/dio.dart';
+import 'package:dio/browser.dart';
 import 'package:injectable/injectable.dart';
 import 'package:pos_public/core/network/api_endpoints.dart';
 import 'package:pos_public/core/network/auth_interceptor.dart';
@@ -15,6 +17,10 @@ abstract class DioClient {
         headers: const {'Content-Type': 'application/json'},
       ),
     );
+
+    if (kIsWeb) {
+      dio.httpClientAdapter = BrowserHttpClientAdapter()..withCredentials = true;
+    }
 
     dio.interceptors.add(authInterceptor);
     return dio;

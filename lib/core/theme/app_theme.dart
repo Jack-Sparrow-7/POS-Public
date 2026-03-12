@@ -1,47 +1,47 @@
 import 'package:flutter/material.dart';
 import 'package:pos_public/core/theme/app_colors.dart';
-import 'package:shadcn_ui/shadcn_ui.dart';
 
 class AppTheme {
   const AppTheme._();
 
-  static ShadThemeData light = ShadThemeData(
-    brightness: Brightness.light,
-
-    colorScheme: const ShadColorScheme(
-      background: AppColors.background,
-      foreground: AppColors.foreground,
-
-      card: AppColors.card,
-      cardForeground: AppColors.cardForeground,
-
-      popover: AppColors.popover,
-      popoverForeground: AppColors.popoverForeground,
-
+  static ThemeData light = ThemeData(
+    useMaterial3: true,
+    fontFamily: 'Inter',
+    scaffoldBackgroundColor: AppColors.background,
+    colorScheme: const ColorScheme(
+      brightness: Brightness.light,
       primary: AppColors.primary,
-      primaryForeground: AppColors.primaryForeground,
-
+      onPrimary: AppColors.primaryForeground,
       secondary: AppColors.secondary,
-      secondaryForeground: AppColors.secondaryForeground,
-
-      muted: AppColors.muted,
-      mutedForeground: AppColors.mutedForeground,
-
-      accent: AppColors.accent,
-      accentForeground: AppColors.accentForeground,
-
-      destructive: AppColors.destructive,
-      destructiveForeground: AppColors.destructiveForeground,
-
-      border: AppColors.border,
-      input: AppColors.input,
-      ring: AppColors.ring,
-
-      selection: AppColors.selection,
+      onSecondary: AppColors.secondaryForeground,
+      error: AppColors.destructive,
+      onError: AppColors.destructiveForeground,
+      surface: AppColors.card,
+      onSurface: AppColors.cardForeground,
     ),
-
-    radius: .circular(16),
-
-    textTheme: ShadTextTheme(family: 'Inter'),
+    inputDecorationTheme: InputDecorationTheme(
+      filled: true,
+      fillColor: AppColors.muted,
+      hintStyle: const TextStyle(color: AppColors.mutedForeground),
+      prefixIconColor: AppColors.mutedForeground,
+      suffixIconColor: AppColors.mutedForeground,
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(20),
+        borderSide: BorderSide.none,
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(20),
+        borderSide: BorderSide.none,
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(20),
+        borderSide: const BorderSide(color: AppColors.ring),
+      ),
+    ),
+    textSelectionTheme: const TextSelectionThemeData(
+      cursorColor: AppColors.primary,
+      selectionColor: AppColors.selection,
+      selectionHandleColor: AppColors.primary,
+    ),
   );
 }

@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:pos_public/core/network/api_endpoints.dart';
-import 'package:pos_public/features/auth/models/auth_response/auth_response.dart';
-import 'package:pos_public/features/auth/models/user/user.dart';
+import 'package:pos_public/models/auth_response/auth_response.dart';
+import 'package:pos_public/models/user/user.dart';
 
 @lazySingleton
 class AuthRepository {

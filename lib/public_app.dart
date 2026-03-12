@@ -4,8 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:pos_public/core/di/injection.dart';
 import 'package:pos_public/core/router/app_router.dart';
 import 'package:pos_public/core/theme/app_theme.dart';
-import 'package:pos_public/features/auth/bloc/auth_bloc.dart';
-import 'package:shadcn_ui/shadcn_ui.dart';
+import 'package:pos_public/blocs/auth/auth_bloc.dart';
+import 'package:toastification/toastification.dart';
 
 class PublicApp extends StatefulWidget {
   const PublicApp({super.key});
@@ -28,13 +28,13 @@ class _PublicAppState extends State<PublicApp> {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [
-        BlocProvider.value(value: _authBloc),
-      ],
-      child: ShadApp.router(
-        debugShowCheckedModeBanner: false,
-        routerConfig: _router,
-        theme: AppTheme.light,
+      providers: [BlocProvider.value(value: _authBloc)],
+      child: ToastificationWrapper(
+        child: MaterialApp.router(
+          debugShowCheckedModeBanner: false,
+          routerConfig: _router,
+          theme: AppTheme.light,
+        ),
       ),
     );
   }

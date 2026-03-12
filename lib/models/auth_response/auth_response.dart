@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:pos_public/features/auth/models/user/user.dart';
+import 'package:pos_public/models/user/user.dart';
 
 part 'auth_response.freezed.dart';
 part 'auth_response.g.dart';

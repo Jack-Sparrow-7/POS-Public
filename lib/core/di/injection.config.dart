@@ -15,8 +15,8 @@ import 'package:injectable/injectable.dart' as _i526;
 import 'package:pos_public/core/network/auth_interceptor.dart' as _i1047;
 import 'package:pos_public/core/network/dio_client.dart' as _i648;
 import 'package:pos_public/core/storage/secure_storage.dart' as _i494;
-import 'package:pos_public/features/auth/bloc/auth_bloc.dart' as _i767;
-import 'package:pos_public/features/auth/repository/auth_repository.dart'
+import 'package:pos_public/blocs/auth/auth_bloc.dart' as _i767;
+import 'package:pos_public/repositories/auth_repository.dart'
     as _i285;
 
 extension GetItInjectableX on _i174.GetIt {
