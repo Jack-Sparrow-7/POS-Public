@@ -40,7 +40,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   Future<void> _onLogin(LoginRequested event, Emitter<AuthState> emit) async {
-    emit(AuthLoading());
+    emit(AuthLoading(action: AuthLoadingAction.login));
 
     try {
       final response = await repository.login(
@@ -63,7 +63,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     RegisterRequested event,
     Emitter<AuthState> emit,
   ) async {
-    emit(AuthLoading());
+    emit(AuthLoading(action: AuthLoadingAction.register));
 
     try {
       final response = await repository.register(
@@ -85,7 +85,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   Future<void> _onLogout(LogoutRequested event, Emitter<AuthState> emit) async {
-    emit(AuthLoading());
+    emit(AuthLoading(action: AuthLoadingAction.logout));
 
     try {
       await repository.logout();

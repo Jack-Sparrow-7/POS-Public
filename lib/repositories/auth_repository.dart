@@ -4,6 +4,11 @@ import 'package:pos_public/core/network/api_endpoints.dart';
 import 'package:pos_public/models/auth_response/auth_response.dart';
 import 'package:pos_public/models/user/user.dart';
 
+String? _readErrorMessage(DioException error) {
+  final data = error.response?.data;
+  return data is Map<String, dynamic> ? data['message'] as String? : null;
+}
+
 @lazySingleton
 class AuthRepository {
   final Dio dio;
@@ -29,7 +34,7 @@ class AuthRepository {
 
       return AuthResponse.fromJson(response.data);
     } on DioException catch (e) {
-      throw Exception(e.response?.data["message"] ?? "Register failed");
+      throw Exception(_readErrorMessage(e) ?? 'Register failed');
     }
   }
 
@@ -45,7 +50,7 @@ class AuthRepository {
 
       return AuthResponse.fromJson(response.data);
     } on DioException catch (e) {
-      throw Exception(e.response?.data["message"] ?? "Login failed");
+      throw Exception(_readErrorMessage(e) ?? 'Login failed');
     }
   }
 
@@ -55,7 +60,7 @@ class AuthRepository {
 
       return User.fromJson(response.data["user"]);
     } on DioException catch (e) {
-      throw Exception(e.response?.data["message"] ?? "Failed to fetch user");
+      throw Exception(_readErrorMessage(e) ?? 'Failed to fetch user');
     }
   }
 
@@ -63,7 +68,7 @@ class AuthRepository {
     try {
       await dio.get(ApiEndpoints.logout);
     } on DioException catch (e) {
-      throw Exception(e.response?.data?["message"] ?? "Logout failed");
+      throw Exception(_readErrorMessage(e) ?? 'Logout failed');
     }
   }
 }

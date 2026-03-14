@@ -1,10 +1,16 @@
 part of 'auth_bloc.dart';
 
-abstract class AuthState {}
+sealed class AuthState {}
+
+enum AuthLoadingAction { login, register, logout }
 
 class AuthInitial extends AuthState {}
 
-class AuthLoading extends AuthState {}
+class AuthLoading extends AuthState {
+  final AuthLoadingAction action;
+
+  AuthLoading({required this.action});
+}
 
 class AuthError extends AuthState {
   final String message;

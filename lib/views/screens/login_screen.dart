@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pos_public/blocs/auth/auth_bloc.dart';
 import 'package:pos_public/core/theme/app_colors.dart';
 import 'package:pos_public/core/theme/app_font_sizes.dart';
 import 'package:pos_public/validators/login_validators.dart';
-import 'package:pos_public/blocs/auth/auth_bloc.dart';
 import 'package:pos_public/widgets/auth_field.dart';
 import 'package:pos_public/widgets/auth_submit_button.dart';
 import 'package:toastification/toastification.dart';
@@ -48,7 +48,8 @@ class _LoginScreenState extends State<LoginScreen> {
           }
         },
         builder: (context, state) {
-          bool isLoading = state is AuthLoading;
+          final isLoading =
+              state is AuthLoading && state.action == AuthLoadingAction.login;
           return Center(
             child: SingleChildScrollView(
               child: ConstrainedBox(
@@ -107,9 +108,19 @@ class _LoginScreenState extends State<LoginScreen> {
                         const Gap(8),
                         Align(
                           alignment: .centerRight,
-                          child: TextButton(
-                            onPressed: () => context.go('/forgotPassword'),
-                            child: Text('Forgot password?'),
+                          child: InkWell(
+                            onTap: () => context.go('/forgot-password'),
+                            focusColor: Colors.transparent,
+                            hoverColor: Colors.transparent,
+                            splashColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            child: Text(
+                              'Forgot password?',
+                              style: TextStyle(
+                                color: AppColors.primary,
+                                fontWeight: .w600,
+                              ),
+                            ),
                           ),
                         ),
                         const Gap(16),
@@ -154,19 +165,33 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                               const Text(
                                 "Sign In",
-                                style: TextStyle(fontSize: 14),
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: .w600,
+                                ),
                               ),
                             ],
                           ),
                         ),
                         const Gap(32),
                         Row(
+                          spacing: 4,
                           mainAxisAlignment: .center,
                           children: [
                             Text("Don't have an account?"),
-                            TextButton(
-                              onPressed: () => context.go('/register'),
-                              child: Text('Sign up'),
+                            InkWell(
+                              onTap: () => context.go('/register'),
+                              focusColor: Colors.transparent,
+                              hoverColor: Colors.transparent,
+                              splashColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              child: Text(
+                                'Sign up',
+                                style: TextStyle(
+                                  color: AppColors.primary,
+                                  fontWeight: .w600,
+                                ),
+                              ),
                             ),
                           ],
                         ),

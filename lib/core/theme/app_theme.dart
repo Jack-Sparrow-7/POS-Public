@@ -8,6 +8,9 @@ class AppTheme {
     useMaterial3: true,
     fontFamily: 'Inter',
     scaffoldBackgroundColor: AppColors.background,
+    appBarTheme: AppBarTheme(
+      backgroundColor: AppColors.background,
+    ),
     colorScheme: const ColorScheme(
       brightness: Brightness.light,
       primary: AppColors.primary,

@@ -18,6 +18,11 @@ class AppShadows {
   ];
 
   static const navShadow = [
-    BoxShadow(color: Color(0x0F14181F), blurRadius: 16, offset: Offset(0, -2)),
+    BoxShadow(color: Color(0x1A14181F), blurRadius: 24, offset: Offset(0, 4)),
+    BoxShadow(
+      color: Color(0x0F14181F),
+      blurRadius: 6,
+      offset: Offset(0, 1.5),
+    ),
   ];
 }

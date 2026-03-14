@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pos_public/core/di/injection.dart';
 import 'package:pos_public/core/router/app_router.dart';
+import 'package:pos_public/core/storage/current_store_storage.dart';
 import 'package:pos_public/core/theme/app_theme.dart';
 import 'package:pos_public/blocs/auth/auth_bloc.dart';
 import 'package:toastification/toastification.dart';
@@ -16,7 +17,10 @@ class PublicApp extends StatefulWidget {
 
 class _PublicAppState extends State<PublicApp> {
   late final AuthBloc _authBloc = sl<AuthBloc>()..add(AuthStarted());
-  late final GoRouter _router = createRouter(_authBloc);
+  late final GoRouter _router = createRouter(
+    _authBloc,
+    sl<CurrentStoreStorage>(),
+  );
 
   @override
   void dispose() {

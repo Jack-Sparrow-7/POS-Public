@@ -2,32 +2,43 @@ import 'dart:async';
 
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pos_public/blocs/auth/auth_bloc.dart';
+import 'package:pos_public/core/storage/current_store_storage.dart';
+import 'package:pos_public/views/screens/forgot_password_screen.dart';
 import 'package:pos_public/views/screens/home_screen.dart';
 import 'package:pos_public/views/screens/loading_screen.dart';
-import 'package:pos_public/blocs/auth/auth_bloc.dart';
-import 'package:pos_public/views/screens/forgot_password_screen.dart';
 import 'package:pos_public/views/screens/login_screen.dart';
 import 'package:pos_public/views/screens/register_screen.dart';
+import 'package:pos_public/views/screens/select_store_screen.dart';
 
-GoRouter createRouter(AuthBloc authBloc) {
+GoRouter createRouter(
+  AuthBloc authBloc,
+  CurrentStoreStorage currentStoreStorage,
+) {
   return GoRouter(
     initialLocation: '/',
     routes: [
       GoRoute(path: '/', builder: (context, state) => LoadingScreen()),
       GoRoute(path: '/login', builder: (context, state) => LoginScreen()),
       GoRoute(path: '/register', builder: (context, state) => RegisterScreen()),
-      GoRoute(path: '/home', builder: (context, state) => HomeScreen()),
       GoRoute(
-        path: '/forgotPassword',
+        path: '/home/:storeId',
+        builder: (context, state) =>
+            HomeScreen(storeId: state.pathParameters['storeId']),
+      ),
+      GoRoute(
+        path: '/forgot-password',
         builder: (context, state) => ForgotPasswordScreen(),
       ),
+      GoRoute(
+        path: '/select-store',
+        builder: (context, state) => SelectStoreScreen(),
+      ),
     ],
-    redirect: (context, state) {
-      final authRoutes = ['/login', '/register', '/forgotPassword'];
-      final protectedRoutes = ['/home'];
+    redirect: (context, state) async {
+      final authRoutes = ['/login', '/register', '/forgot-password'];
       final isOnLoadingRoute = state.matchedLocation == '/';
       final isAuthRoute = authRoutes.contains(state.matchedLocation);
-      final isProtectedRoute = protectedRoutes.contains(state.matchedLocation);
 
       final authState = authBloc.state;
 
@@ -35,22 +46,30 @@ GoRouter createRouter(AuthBloc authBloc) {
         return '/';
       }
 
+      final savedStoreId = await currentStoreStorage.getStoreId();
+      final isSelectStoreRoute = state.matchedLocation == '/select-store';
+      final homeLocation = savedStoreId == null
+          ? '/select-store'
+          : '/home/$savedStoreId';
+
       if (authState is Unauthenticated) {
-        if (isProtectedRoute || isOnLoadingRoute) {
-          return '/login';
+        if (isOnLoadingRoute) {
+          return homeLocation;
+        }
+        if (isSelectStoreRoute && savedStoreId != null) {
+          return homeLocation;
         }
         return null;
       }
 
       if (authState is Authenticated) {
-        if (isAuthRoute || isOnLoadingRoute) {
-          return '/home';
+        if (isOnLoadingRoute || isAuthRoute) {
+          return homeLocation;
+        }
+        if (isSelectStoreRoute && savedStoreId != null) {
+          return homeLocation;
         }
         return null;
-      }
-
-      if (isProtectedRoute) {
-        return '/login';
       }
 
       return null;
