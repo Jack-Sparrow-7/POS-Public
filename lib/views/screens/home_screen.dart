@@ -84,68 +84,63 @@ class _HomeScreenState extends State<HomeScreen> {
         builder: (context, value, child) {
           return SafeArea(
             minimum: const EdgeInsets.fromLTRB(16, 0, 16, 24),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 440),
-                  child: Container(
-                    padding: const EdgeInsets.all(8),
-                    height: 64,
-                    decoration: BoxDecoration(
-                      color: AppColors.card,
-                      borderRadius: BorderRadius.circular(999),
-                      boxShadow: AppShadows.navShadow,
-                    ),
-                    child: Row(
-                      spacing: 8,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        NavItem(
-                          name: "Home",
-                          icon: value == 0
-                              ? UIcons.solidRounded.home
-                              : UIcons.regularRounded.home,
-                          isSelected: value == 0,
-                          onPressed: value == 0
-                              ? null
-                              : () => currentIndex.value = 0,
-                        ),
-                        NavItem(
-                          name: "Cart",
-                          icon: value == 1
-                              ? UIcons.solidRounded.wallet
-                              : UIcons.regularRounded.wallet,
-                          isSelected: value == 1,
-                          onPressed: value == 1
-                              ? null
-                              : () => currentIndex.value = 1,
-                        ),
-                        NavItem(
-                          name: "Orders",
-                          icon: value == 2
-                              ? UIcons.solidRounded.clipboard_list
-                              : UIcons.regularRounded.clipboard_list,
-                          isSelected: value == 2,
-                          onPressed: value == 2
-                              ? null
-                              : () => currentIndex.value = 2,
-                        ),
-                        NavItem(
-                          name: "Profile",
-                          icon: value == 3
-                              ? UIcons.solidRounded.user
-                              : UIcons.regularRounded.user,
-                          isSelected: value == 3,
-                          onPressed: value == 3
-                              ? null
-                              : () => currentIndex.value = 3,
-                        ),
-                      ],
-                    ),
-                  ),
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 440),
+              child: Container(
+                padding: const EdgeInsets.all(8),
+                height: 64,
+                decoration: BoxDecoration(
+                  color: AppColors.card,
+                  borderRadius: BorderRadius.circular(999),
+                  boxShadow: AppShadows.navShadow,
                 ),
-              ],
+                child: Row(
+                  spacing: 8,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    NavItem(
+                      name: "Home",
+                      icon: value == 0
+                          ? UIcons.solidRounded.home
+                          : UIcons.regularRounded.home,
+                      isSelected: value == 0,
+                      onPressed: value == 0
+                          ? null
+                          : () => currentIndex.value = 0,
+                    ),
+                    NavItem(
+                      name: "Cart",
+                      icon: value == 1
+                          ? UIcons.solidRounded.wallet
+                          : UIcons.regularRounded.wallet,
+                      isSelected: value == 1,
+                      onPressed: value == 1
+                          ? null
+                          : () => currentIndex.value = 1,
+                    ),
+                    NavItem(
+                      name: "Orders",
+                      icon: value == 2
+                          ? UIcons.solidRounded.clipboard_list
+                          : UIcons.regularRounded.clipboard_list,
+                      isSelected: value == 2,
+                      onPressed: value == 2
+                          ? null
+                          : () => currentIndex.value = 2,
+                    ),
+                    NavItem(
+                      name: "Profile",
+                      icon: value == 3
+                          ? UIcons.solidRounded.user
+                          : UIcons.regularRounded.user,
+                      isSelected: value == 3,
+                      onPressed: value == 3
+                          ? null
+                          : () => currentIndex.value = 3,
+                    ),
+                  ],
+                ),
+              ),
             ),
           );
         },
